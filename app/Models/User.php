@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Models\Event; // Bu satırı ekleyin
+use App\Models\Category;
 class User extends Authenticatable
 {
     use HasApiTokens;

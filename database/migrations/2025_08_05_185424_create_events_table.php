@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('location');
             $table->datetime('start_date');
             $table->datetime('end_date');
-           // $table->datetime('registration_start');//kayıt başlangıç tarihi
-           // $table->datetime('registration_end');
+            $table->datetime('registration_start');//kayıt başlangıç tarihi
+            $table->datetime('registration_end');
             $table->integer('max_participants')->nullable();
             $table->decimal('price', 8, 2)->default(0);
             $table->enum('status', ['draft', 'published', 'cancelled'])->default('draft');//durum(taslak,yaınlandı,iptal edildi)
