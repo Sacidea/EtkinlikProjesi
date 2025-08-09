@@ -36,7 +36,7 @@ Route::get('/events/createPage', [EventController::class, 'createPage'])->name('
 Route::post('/create', [EventController::class, 'create'])->name('events.create');
 
 //Seçilen etkinliğe kayıt  sayfası
-Route::get('/show/{event}', [EventRegistrationController::Controller::class, 'showPage'])->name('events.showPage');
+Route::get('/show/{event}', [EventRegistrationController::class, 'showPage'])->name('events.showPage');
 Route::post('/show', [EventRegistrationController::class, 'show'])->name('events.show');
 //kategori oluştur
 Route::get('/category', [\App\Http\Controllers\CategoryController::class, 'createPage'])->name('category.createPage');

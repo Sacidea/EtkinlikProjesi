@@ -63,4 +63,10 @@ class EventRegistrationController extends Controller
         return back()->with('error', 'İptal edilecek başvuru bulunamadı.');
     }
 
+    public function showPage(){
+        $event=new Event();
+        return view('panel.events.show', ['event'=>$event]);
+
+    }
+
     }
