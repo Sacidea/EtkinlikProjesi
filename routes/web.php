@@ -16,27 +16,32 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
-
-
-
-// routes/web.php
-Route::get('/', [EventController::class, 'index'])->name('events.index');
-Route::get('/temp', [EventController::class, 'layout'])->name('panel.layout');
-Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
-
-Route::middleware('auth')->group(function () {
-    Route::post('/events/{event}/register', [EventRegistrationController::class, 'store'])
-        ->name('events.register');
-    Route::delete('/events/{event}/cancel', [EventRegistrationController::class, 'cancel'])
-        ->name('events.cancel');
-
-    Route::get('/my-registrations', [UserController::class, 'myRegistrations'])
-        ->name('user.registrations');
+Route::get('/temp',function(){
+    return view('panel.layout.app');//her html sayfasında  bulunacak kısım(menü, navbar vs.)
 });
 
-// Admin route'ları
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
-    Route::resource('events', AdminEventController::class);
-    Route::get('registrations', [AdminController::class, 'registrations']);
-    Route::patch('registrations/{registration}', [AdminController::class, 'updateRegistration']);
+
+//Denemeler
+Route::get('/events/createPage',function(){
+   return view('panel.events.create');
 });
+
+
+
+
+//etkinlik listesi
+Route::get('/index', [EventController::class, 'index'])->name('events.index');
+//yeni etkinlik oluştur
+Route::get('/events/createPage', [EventController::class, 'createPage'])->name('events.createPage');
+Route::post('/create', [EventController::class, 'create'])->name('events.create');
+
+//Seçilen etkinliğe kayıt  sayfası
+Route::get('/show/{event}', [EventRegistrationController::Controller::class, 'showPage'])->name('events.showPage');
+Route::post('/show', [EventRegistrationController::class, 'show'])->name('events.show');
+//kategori oluştur
+Route::get('/category', [\App\Http\Controllers\CategoryController::class, 'createPage'])->name('category.createPage');
+Route::post('/category', [\App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
+
+
+
+

@@ -7,6 +7,7 @@ use App\Models\Event; // Bu satırı ekleyin
 use App\Models\Category;
 class EventRegistration extends Model
 {
+    protected $table = 'event_registrations';
     protected $fillable = [
         'event_id', 'user_id', 'status', 'notes', 'registered_at'
     ];

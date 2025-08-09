@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+    protected $table = 'events';
+
     protected $fillable = [  //Laravel'de "toplu atanabilir (mass assignable)" alanları tanımlamak için kullanılır.
         'title', 'description', 'image', 'location',
         'start_date', 'end_date', 'registration_start',
@@ -26,6 +28,8 @@ class Event extends Model
 
 
     // İlişkiler
+
+
     public function organizer()
     {
         return $this->belongsTo(User::class, 'organizer_id');
@@ -44,12 +48,12 @@ class Event extends Model
 
 
     // Helper metodlar
-    public function isRegistrationOpen()  //Kayıtların şu an açık olup olmadığını kontrol eder.
+    public function isRegistrationOpen(): bool//Kayıtların şu an açık olup olmadığını kontrol eder.
     {
         return now()->between($this->registration_start, $this->registration_end);//now(), registration_start ve registration_end aralığında mı?
     }
 
-    public function hasAvailableSpots()//Etkinlikte boş kontenjan olup olmadığını kontrol eder
+    public function hasAvailableSpots(): bool//Etkinlikte boş kontenjan olup olmadığını kontrol eder
     {
         if (!$this->max_participants) return true;//Eğer max_participants belirtilmemişse (null), her zaman true (sınırsız katılım).
         return $this->registrations()->where('status', 'approved')->count() < $this->max_participants;//Belirtilmişse, onaylı (approved) kayıt sayısı kontenjanı aşmış mı?

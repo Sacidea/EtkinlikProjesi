@@ -14,6 +14,19 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         //
     })
+
+     //admin takma adını AdminMiddleware sınıfına bağlar
+     //Artık route'larda \App\Http\Middleware\AdminMiddleware::class yazmak yerine sadece 'admin' yazabiliriz--
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+        ]);
+    })
+    //---
+
+
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
+
+

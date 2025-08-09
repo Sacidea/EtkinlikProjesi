@@ -3,21 +3,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Category extends Model
 {
-    use HasFactory;
 
-    protected $fillable = [
+
+   // public mixed $name;// mixed $name 'in herhangi bir türde değer alabileceğini belirtir
+    protected $fillable = [//toplu atamada hangi alanlara atama yapılacağını belirtir
         'name',
         'slug',
         'description',
     ];
 
-    protected $casts = [
+    protected $casts = [             // created_at ve updated_at alanlarını Carbon datetime nesnesine dönüştürür
+                                     // Laravel'in otomatik timestamp yönetimini aktif hale getirir
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -67,12 +70,14 @@ class Category extends Model
     }
 
     // Scope'lar
-    public function scopeWithEventsCount($query)
+    #[Scope]
+    protected function withEventsCount($query)
     {
         return $query->withCount('events');
     }
 
-    public function scopeHasEvents($query)
+    #[Scope]
+    protected function hasEvents($query)
     {
         return $query->has('events');
     }

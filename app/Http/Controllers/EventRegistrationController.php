@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Category;
-
-use App\Http\Controllers\Controller;
+use App\Models\EventRegistration;
+use Closure;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
+
+
+
 
 class EventRegistrationController extends Controller
 {
 
-    public function store(Request $request, Event $event)
+    public function show(Request $request, Event $event)
     {
         // Kontroller: Kullanıcı giriş yapmış mı?
         if (!auth()->check()) {
