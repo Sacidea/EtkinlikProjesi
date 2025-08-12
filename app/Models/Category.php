@@ -43,10 +43,10 @@ class Category extends Model
         });
     }
 
-    // Event'lerle many-to-many ilişki
+    // Event'lerle ilişki (bir kategorinin birden çok etkinliği olabilir)
     public function events()
     {
-        return $this->belongsToMany(Event::class, 'event_category');
+        return $this->hasMany(Event::class, 'category_id');
     }
 
     // Kategori URL'si için

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+    /**
+     * @var \Illuminate\Support\Carbon|mixed
+     */
+
     protected $table = 'events';
 
     protected $fillable = [  //Laravel'de "toplu atanabilir (mass assignable)" alanları tanımlamak için kullanılır.
@@ -27,6 +31,7 @@ class Event extends Model
 
 
 
+
     // İlişkiler
 
 
@@ -42,7 +47,7 @@ class Event extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
 

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('location');
             $table->datetime('start_date');
             $table->datetime('end_date');
-            $table->datetime('registration_start');//kayıt başlangıç tarihi
-            $table->datetime('registration_end');
+            $table->datetime('registration_start')->default(now()); // Şu anki zaman
+            $table->datetime('registration_end')->default(now()->addWeek()); // 1 hafta sonra
             $table->integer('max_participants')->nullable();
             $table->decimal('price', 8, 2)->default(0);
             $table->enum('status', ['draft', 'published', 'cancelled'])->default('draft');//durum(taslak,yaınlandı,iptal edildi)
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();//created_at ve updated_at sütunlarını ekler
 
-            $table->softDeletes();
+
 
 
 

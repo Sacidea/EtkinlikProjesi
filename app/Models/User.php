@@ -9,8 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Event; // Bu satırı ekleyin
-use App\Models\Category;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -30,7 +29,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',//admin middleware oluşturulup eklendi
     ];
 
     /**
@@ -54,11 +52,6 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public function events()//one to many ilişkisini tanımlar
-    {
-        return $this->hasMany(Event::class);
-    }
-
     /**
      * Get the attributes that should be cast.
      *
@@ -69,7 +62,29 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'boolean',//admin middleware oluşturulup eklendi
         ];
+
     }
+
+
+
+
+    // Kullanıcının organize ettiği etkinlikler
+    public function organizedEvents()
+    {
+        return $this->hasMany(Event::class, 'organizer_id');
+    }
+
+    // Kullanıcının başvuru yaptığı etkinlikler
+    public function eventRegistrations()
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
+
+
+
 }
+
+
+
+

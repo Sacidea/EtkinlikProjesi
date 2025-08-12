@@ -34,16 +34,16 @@ class EventController extends Controller
         }
 
         $events = $query->paginate(12);
-        $categories = Category::get();
+        $categories = Category::all();
        //KATEGORİ LİSTELEME
-        $etkinlikler=Event::get();
+        $etkinlikler=Event::all();
 
 
         return view('panel.events.index', compact('events', 'categories','etkinlikler'));
     }
 
 
-    //Yeni etkinlik oluşturma
+    //Yeni etkinlik oluşturma Sayfası
     public function createPage()
     {
         $categories = Category::all(); // get() yerine all() kullanın
@@ -64,24 +64,30 @@ class EventController extends Controller
     public function create(Request $request)
     {
         // Validation kuralları
-        $validated = $request->validate([
+             $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
             'start_date' => 'required|date',
-            'end_date' => 'nullable|date|after:start_date',
+            'end_date' => 'required|date|after:start_date',
             'location' => 'required',
-            'status' => 'required|in:active,draft',
-            'category_id' => 'required|numeric'
+            'status' => 'required|in:published,draft',
+            'category_id' => 'required|numeric',
+             'image' =>   'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        $imagePath = $request->file('image')->store('public/'. '$request->image');
 
-
-        $event=new Event();
+        $event=new Event();//model ile veri tabanına kayıt
         $event->title=$request->title;
         $event->description=$request->description;
+        $event->location=$request->location;
         $event->start_date=$request->start_date;
         $event->end_date=$request->end_date;
         $event->status=$request->status;
-        $event->category_id=(int)$request->category_id;
+        $event->organizer_id= auth()->id();
+        $event->image=$request->$imagePath;
+        $event->registration_start = now();
+        $event->registration_end = now()->addWeek();
+        $event->category_id=$request->category_id;
         $event->save();
 
 
@@ -115,7 +121,7 @@ class EventController extends Controller
                 ->where('user_id', auth()->id())
                 ->first();
         }
-        return view('panel.events.show', compact('event', 'userRegistration'));
+        return view('panel.events.show', compact('event', 'userRegistration'));//show sayfasında kullanılacak
     }
 
 
@@ -124,8 +130,7 @@ class EventController extends Controller
      * Show the form for editing the specified resource.
      */
 
-    //Admin sayfalarında ekstra işlemler için butonları gösterecek *****
-    // app/Livewire/Events.php (mevcut component'ınız)
+
 
     public function mount()
     {

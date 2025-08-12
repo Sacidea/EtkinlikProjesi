@@ -21,10 +21,6 @@ Route::get('/temp',function(){
 });
 
 
-//Denemeler
-Route::get('/events/createPage',function(){
-   return view('panel.events.create');
-});
 
 
 
@@ -37,10 +33,23 @@ Route::post('/create', [EventController::class, 'create'])->name('events.create'
 
 //Seçilen etkinliğe kayıt  sayfası
 Route::get('/show/{event}', [EventRegistrationController::class, 'showPage'])->name('events.showPage');
-Route::post('/show', [EventRegistrationController::class, 'show'])->name('events.show');
+Route::post('/register/{event}', [EventRegistrationController::class, 'register'])->name('events.register');
+
+
+//Organizer Onay Sayfaları
+Route::middleware('auth')->group(function () {
+    // Organizer için
+    Route::get('/organizer/index', [EventRegistrationController::class, 'organizerIndex'])->name('organizer.registrations');
+    Route::patch('/event-registrations/{registrations}/status', [EventRegistrationController::class, 'updateStatus'])->name('event-registrations.update-status');
+
+    // Kullanıcının kendi başvuruları için
+    Route::get('/myRegistrations', [EventRegistrationController::class, 'myRegistrations'])->name('myRegistrations');
+});
+
 //kategori oluştur
+
 Route::get('/category', [\App\Http\Controllers\CategoryController::class, 'createPage'])->name('category.createPage');
-Route::post('/category', [\App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
+Route::post('/categoryKaydı', [\App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
 
 
 

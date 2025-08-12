@@ -16,13 +16,22 @@ class EventRegistration extends Model
         'registered_at' => 'datetime'
     ];
 
-    public function event()
+
+
+
+    public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Event::class);
     }
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
+
+
+
+
+
 }

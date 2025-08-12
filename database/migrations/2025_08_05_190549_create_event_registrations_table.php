@@ -24,8 +24,8 @@ return new class extends Migration
             $table->unique(['event_id', 'user_id']); // Aynı etkinliğe aynı kişinin birden fazla başvuru engeli
 
         });
-    }
 
+    }
     /**
      * Reverse the migrations.
      */

@@ -1,45 +1,42 @@
-<!-- Etkinlik detay sayfası -->
 @extends('panel.layout.app')
 
-@section('title', $event->title)
+@section('title', $event->title ?? 'Etkinlik Detayı')
 
 @section('content')
     <div class="container">
-
-
-        <!-- Admin ise özel butonlar göster -->
-        @if($isAdmin)
-            <div class="bg-blue-50 p-4 rounded-lg mb-6">
-                <h3 class="text-lg font-semibold text-blue-800">Admin Panel</h3>
-                <p class="text-blue-600">Admin olarak özel yetkilere sahipsiniz.</p>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
         @endif
 
-
-
         <div class="row">
             <div class="col-md-8">
-                <h1>{{ $event->title }}</h1>
-                <img src="{{ $event->image }}" class="img-fluid mb-3">
-                <p>{{ $event->description }}</p>
+                <h1>{{ $event->title ?? 'Etkinlik Başlığı' }}</h1>
+
+                @if($event->image)
+                    <img src="{{ asset($event->image) }}"
+                         alt="Event Image"
+                         style="max-width: 500px;">
+                @else
+                    <p>Resim bulunamadı</p>
+                @endif
+
+                <p>{{ $event->description ?? 'Açıklama yok' }}</p>
 
                 <div class="event-details">
-                    <p><i class="fas fa-calendar"></i> {{ $event->start_date->format('d.m.Y H:i') }}</p>
-                    <p><i class="fas fa-map-marker"></i> {{ $event->location }}</p>
+                    <p><i class="fas fa-calendar"></i> {{ $event->start_date }}</p>
+                    <p><i class="fas fa-calendar"></i> {{ $event->end_date }}</p>
+                    <p><i class="fas fa-map-marker"></i> {{ $event->location ?? 'Lokasyon belirtilmemiş' }}</p>
                     <p><i class="fas fa-money-bill"></i>
-                        @if($event->price > 0)
-                            {{ $event->price }} TL
-                        @else
-                            Ücretsiz
-                        @endif
+                        {{ $event->price > 0 ? $event->price . ' TL' : 'Ücretsiz' }}
                     </p>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <!-- Başvuru formu veya durumu -->
+            <div class="col-md-9">
                 @auth
-                    @if($userRegistration)
+                    @if($userRegistration ?? false)
                         <div class="alert alert-info">
                             Başvuru Durumunuz: {{ $userRegistration->status }}
                         </div>
@@ -55,4 +52,8 @@
             </div>
         </div>
     </div>
+
+
+
+
 @endsection

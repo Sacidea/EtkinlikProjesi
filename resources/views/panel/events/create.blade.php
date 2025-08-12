@@ -25,7 +25,7 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('events.create') }}">
+                        <form method="POST" action="{{ route('events.create') }}" enctype="multipart/form-data">
                             @csrf
 
 
@@ -49,7 +49,7 @@
                             <!-- Etkinlik Açıklaması -->
                             <div class="form-group mb-3">
                                 <label for="description" class="form-label">
-                                    <i class="fas fa-align-left"></i> Etkinlik Açıklaması *
+                                    <i class="fas fa-align-left"></i> Etkinlik Açıklaması
                                 </label>
                                 <textarea class="form-control @error('description') is-invalid @enderror"
                                           id="description"
@@ -67,7 +67,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
                                         <label for="start_date" class="form-label">
-                                            <i class="fas fa-calendar"></i> Başlangıç Tarihi *
+                                            <i class="fas fa-calendar"></i> Başlangıç Tarihi
                                         </label>
                                         <input type="datetime-local"
                                                class="form-control @error('start_date') is-invalid @enderror"
@@ -100,7 +100,7 @@
                             <!-- Konum -->
                             <div class="form-group mb-3">
                                 <label for="location" class="form-label">
-                                    <i class="fas fa-map-marker-alt"></i> Etkinlik Yeri *
+                                    <i class="fas fa-map-marker-alt"></i> Etkinlik Yeri
                                 </label>
                                 <input type="text"
                                        class="form-control @error('location') is-invalid @enderror"
@@ -198,8 +198,8 @@
                                            type="radio"
                                            name="status"
                                            id="status_active"
-                                           value="active"
-                                        {{ old('status', 'active') == 'active' ? 'checked' : '' }}>
+                                           value="published"
+                                        {{ old('status', 'published') == 'published' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="status_active">
                                         <span class="badge bg-success p-1  " >Aktif</span> - Etkinlik hemen yayınlanır
                                     </label>
