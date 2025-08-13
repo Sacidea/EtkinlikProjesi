@@ -11,7 +11,7 @@ class CategoryController extends Controller
     //
     public function createPage(Event $event)
     {
-        return view('panel.categories.create');
+        return view('panel.categories.createCategory');
 
     }
 

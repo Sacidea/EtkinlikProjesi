@@ -77,7 +77,7 @@ class EventRegistrationController extends Controller
         ]);
     }
 
-    //Tüm Eventregistrationdaki kayıtlar getir
+    //Tüm Eventregistrationdaki organizer_id si aynı olan başvuruları getir
 
     public function organizerPage()
     {
@@ -94,8 +94,6 @@ class EventRegistrationController extends Controller
         ]);
 
     }
-
-
 
 
 
@@ -153,5 +151,38 @@ class EventRegistrationController extends Controller
         return view('panel.eventRegistration.myRegistrations', compact('myRegistrations'));
     }
 
+    //Admin sayfasında tüm kayıtlar
+    public function adminRegistrations()
+    {
+        // Get all event registrations with related organizer and user data
+        $registrations = EventRegistration::with([ 'user', 'event'])
+            ->latest()
+            ->get();
+
+
+
+        // Kayıtların gelip gelmediğini kontrol edin
+        if ($registrations->isEmpty()) {
+            \Log::warning('Başvuru yok!');
+        }
+
+        $formattedRegistrations = $registrations->map(function ($registration) {
+            return [
+                'id' => $registration->id,
+                'event_name' => $registration->event->name ?? 'N/A',
+                'organizer_name' => $registration->event->organizer_id->name ?? 'N/A',
+                'user_name' => $registration->user->name ?? 'N/A',
+                'status' => $registration->status,
+                'created_at' => $registration->created_at->format('Y-m-d H:i'),
+                'updated_at' => $registration->updated_at->format('Y-m-d H:i'),
+            ];
+        });
+
+        return view('panel.Admin.indexA')->with([
+            'event_registrations' => $formattedRegistrations,
+            'statuses' => ['pending', 'approved', 'rejected', 'cancelled'],
+            'total_registrations' => $registrations->count(),
+        ]);
+    }
 
 }

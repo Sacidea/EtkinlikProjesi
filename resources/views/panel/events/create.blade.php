@@ -6,7 +6,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-20 mx-auto">
+            <div class="col-mx-auto">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="mb-0">
@@ -179,6 +179,7 @@
                                         id="category_id"
                                         name="category_id">
                                     <option value="" disabled>Kategori Seçiniz</option>
+
                                     @foreach($categories as $k)
 
                                     <option value="{{$k->id}}"  >{{$k->name}}</option>

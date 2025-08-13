@@ -6,7 +6,22 @@
 
     <div class="card-header">
         Kategori Oluştur
-    </div>
+
+    </div>  @if($errors->any())
+        <div class="alert alert-danger">
+            @foreach($errors->all() as $e)
+                {{$e}}<br>
+            @endforeach
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+
+        </div>
+    @endif
+
     <div class="card-body">
 
         <div class="card-body">

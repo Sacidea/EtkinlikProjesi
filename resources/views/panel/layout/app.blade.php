@@ -28,20 +28,14 @@
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-            <a class="sidebar-brand brand-logo" href=""><img src="{{asset('panel/assets/images/logo.svg')}}" alt="logo" /></a>
-            <a class="sidebar-brand brand-logo-mini" href=""><img src="{{asset('panel/assets/images/logo-mini.svg')}}" alt="logo" /></a>
+            <a class="sidebar-brand brand-logo" href="index.html"><img src="{{asset('panel/assets/images/logo.svg')}}" alt="logo" /></a>
+            <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="{{asset('panel/assets/images/logo-mini.svg')}}" alt="logo" /></a>
         </div>
         <ul class="nav">
-
-
             <li class="nav-item profile">
                 <div class="profile-desc">
                     <div class="profile-pic">
-
-                        <div class="profile-name">
-
-
-                        </div>
+                        <div class="profile-name"></div>
                     </div>
                     <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
                     <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
@@ -59,7 +53,7 @@
                         <a href="#" class="dropdown-item preview-item">
                             <div class="preview-thumbnail">
                                 <div class="preview-icon bg-dark rounded-circle">
-                                    <i class="mdi mdi-onepassword  text-info"></i>
+                                    <i class="mdi mdi-onepassword text-info"></i>
                                 </div>
                             </div>
                             <div class="preview-item-content">
@@ -84,54 +78,50 @@
                 <span class="nav-link">Navigation</span>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="">
-              <span class="menu-icon">
-                <i class="mdi mdi-speedometer"></i>
-              </span>
+                <a class="nav-link" href="index.html">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-speedometer"></i>
+                    </span>
                     <span class="menu-title">Dashboard</span>
                 </a>
             </li>
-
-
-
-
             <li class="nav-item menu-items">
                 <a class="nav-link" href="{{route('events.index')}}">
-              <span class="menu-icon">
-                <i class="mdi mdi-playlist-play"></i>
-              </span>
+                    <span class="menu-icon">
+                        <i class="mdi mdi-playlist-play"></i>
+                    </span>
                     <span class="menu-title">Etkinlikler</span>
                 </a>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="{{route('myRegistrations')}}" >
-              <span class="menu-icon">
-                <i class="mdi mdi-table-large"></i>
-              </span>
+                <a class="nav-link" href="{{route('myRegistrations')}}">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-table-large"></i>
+                    </span>
                     <span class="menu-title">Başvurularım</span>
                 </a>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="pages/charts/chartjs.html">
-              <span class="menu-icon">
-                <i class="mdi mdi-chart-bar"></i>
-              </span>
+                <a class="nav-link" href="{{route('organizer.registrations')}}">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-chart-bar"></i>
+                    </span>
                     <span class="menu-title">Etkinlik Yönetimi</span>
                 </a>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="pages/icons/mdi.html">
-              <span class="menu-icon">
-                <i class="mdi mdi-contacts"></i>
-              </span>
-                    <span class="menu-title">Icons</span>
+                <a class="nav-link" href="{{route('category.createPage')}}">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-contacts"></i>
+                    </span>
+                    <span class="menu-title">Kategori Oluştur</span>
                 </a>
             </li>
             <li class="nav-item menu-items">
                 <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-              <span class="menu-icon">
-                <i class="mdi mdi-security"></i>
-              </span>
+                    <span class="menu-icon">
+                        <i class="mdi mdi-security"></i>
+                    </span>
                     <span class="menu-title">User Pages</span>
                     <i class="menu-arrow"></i>
                 </a>
@@ -146,10 +136,10 @@
                 </div>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="http://www.bootstrapdash.com/demo/corona-free/jquery/documentation/documentation.html">
-              <span class="menu-icon">
-                <i class="mdi mdi-file-document-box"></i>
-              </span>
+                <a class="nav-link" href="">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-file-document-box"></i>
+                    </span>
                     <span class="menu-title">Documentation</span>
                 </a>
             </li>
@@ -160,7 +150,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo-mini" href=""><img src="{{asset('panel/assets/images/logo-mini.svg')}}" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('panel/assets/images/logo-mini.svg')}}" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -175,15 +165,11 @@
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item dropdown d-none d-lg-block">
-                        <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown"  aria-expanded="false" href="{{route('events.createPage')}}">+ Create New Events</a>
+                        <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" aria-expanded="false" href="{{route('events.createPage')}}">+ Create New Events</a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
-
-                                <div class="preview-item-content">
-                                    <p class="preview-subject ellipsis mb-1">UI Development</p>
-                                </div>
-
-
-
+                            <div class="preview-item-content">
+                                <p class="preview-subject ellipsis mb-1">UI Development</p>
+                            </div>
                         </div>
                     </li>
                     <li class="nav-item nav-settings d-none d-lg-block">
@@ -197,48 +183,30 @@
                             <span class="count bg-success"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
-
-
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-
-                                </div>
-
+                                <div class="preview-thumbnail"></div>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-
-
-                            </a>
-
-
-
-
-
-
-
-
+                            <a class="dropdown-item preview-item"></a>
+                        </div>
+                    </li>
+                </ul>
                 <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
                     <span class="mdi mdi-format-line-spacing"></span>
                 </button>
             </div>
         </nav>
         <!-- partial -->
-        <div class="card m-5">
         <div class="main-panel">
-
-            @yield('content')
-
-                        </div>
-                    </div>
-
-
-
-
-
-
-
+            <div class="content-wrapper">
+                <div class="card m-5">
+                    @yield('content')
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- plugins:js -->
 <!-- Önce jQuery'yi yükle (diğer tüm jQuery eklentilerinden ÖNCE) -->

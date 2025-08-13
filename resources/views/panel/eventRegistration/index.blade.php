@@ -26,7 +26,7 @@
                             <td>{{ $registration->user->name }}</td>
                             <td>
                             <span class="badge badge-{{ $registration->status === 'approved' ? 'success' : ($registration->status === 'rejected' ? 'danger' : 'warning') }}">
-                                {{ ucfirst($registration->status) }}
+                                {{ ucfirst($registration->status) }}//ucfirst string in ilk karakterini büyük harfe çevirir
                             </span>
                             </td>
                             <td>{{ $registration->registered_at->format('d/m/Y H:i') }}</td>

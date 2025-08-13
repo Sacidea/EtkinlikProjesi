@@ -5,6 +5,21 @@
 @section('content')
 
     <h1>Başvurularınız</h1>
+    @if($errors->any())
+        <div class="alert alert-danger">
+            @foreach($errors->all() as $e)
+                {{$e}}<br>
+            @endforeach
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+
+        </div>
+    @endif
+
     @foreach($myRegistrations as $myRegistration)
 
     <div class="card mt-5">

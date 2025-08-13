@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Category extends Model
 {
-
+    use SoftDeletes;
 
    // public mixed $name;// mixed $name 'in herhangi bir türde değer alabileceğini belirtir
     protected $fillable = [//toplu atamada hangi alanlara atama yapılacağını belirtir

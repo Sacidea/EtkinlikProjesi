@@ -23,8 +23,9 @@ class EventController extends Controller
 
         // Kategori filtresi
         if ($request->category) {
-            $query->whereHas('categories', function ($q) use ($request) {
-                $q->where('slug', $request->category);
+            $query->whereHas('categories', function ($q) use ($request) {//whereHas metodu, modelin "categories" ilişkisine sahip kayıtlarını filtreler.
+                                                                                 //Yani sadece belirli bir kategoriyle ilişkilendirilmiş kayıtları getirir.
+                $q->where('slug', $request->category);                           //use ($request) ile dış scope'daki $request değişkenini içeriye aktarır
             });
 
         }
@@ -33,7 +34,7 @@ class EventController extends Controller
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        $events = $query->paginate(12);
+        $events = $query->paginate(12);//Sayfada 12 şerli gruplarla listeyi gösterir
         $categories = Category::all();
        //KATEGORİ LİSTELEME
         $etkinlikler=Event::all();
@@ -46,7 +47,7 @@ class EventController extends Controller
     //Yeni etkinlik oluşturma Sayfası
     public function createPage()
     {
-        $categories = Category::all(); // get() yerine all() kullanın
+        $categories = Category::all();
 
         // Kategorilerin gelip gelmediğini kontrol edin
         if ($categories->isEmpty()) {
@@ -54,7 +55,8 @@ class EventController extends Controller
         }
 
         return view('panel.events.create')->with([
-            'categories' => $categories,
+
+           'categories' => $categories,
             'statuses' => ['active', 'draft'] // Örnek ek veri
         ]);
     }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'approved', 'rejected', 'cancelled'])->default('pending');//beklemede,onaylandı,reddedildi,iptal edildi
             $table->text('notes')->nullable();
             $table->datetime('registered_at');
-
+            $table->softDeletes();
             $table->timestamps();
             $table->unique(['event_id', 'user_id']); // Aynı etkinliğe aynı kişinin birden fazla başvuru engeli
 
