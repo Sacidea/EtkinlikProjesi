@@ -66,7 +66,7 @@ class EventController extends Controller
     public function create(Request $request)
     {
         // Validation kuralları
-             $request->validate([
+        $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
             'start_date' => 'required|date',
@@ -74,27 +74,29 @@ class EventController extends Controller
             'location' => 'required',
             'status' => 'required|in:published,draft',
             'category_id' => 'required|numeric',
-             'image' =>   'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        $imagePath = $request->file('image')->store('public/'. '$request->image');
 
-        $event=new Event();//model ile veri tabanına kayıt
-        $event->title=$request->title;
-        $event->description=$request->description;
-        $event->location=$request->location;
-        $event->start_date=$request->start_date;
-        $event->end_date=$request->end_date;
-        $event->status=$request->status;
-        $event->organizer_id= auth()->id();
-        $event->image=$request->$imagePath;
+        // Resim yükleme işlemi
+        $imagePath = null;
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $imagePath = $request->file('image')->store('public/events', 'public');
+        }
+
+        // Etkinlik oluşturma
+        $event = new Event();
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->location = $request->location;
+        $event->start_date = $request->start_date;
+        $event->end_date = $request->end_date;
+        $event->status = $request->status;
+        $event->organizer_id = auth()->id();
+        $event->image = $imagePath;
         $event->registration_start = now();
         $event->registration_end = now()->addWeek();
-        $event->category_id=$request->category_id;
+        $event->category_id = $request->category_id;
         $event->save();
-
-
-        // Kullanıcıya bağlı olarak etkinlik oluştur
-        //$event = auth()->create($validated);
 
         return redirect()->route('events.index')
             ->with('success', 'Etkinlik başarıyla oluşturuldu!');

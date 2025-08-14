@@ -25,26 +25,31 @@ Route::middleware([
 
 
 //etkinlik listesi
-Route::get('/index', [EventController::class, 'index'])->name('events.index');
+Route::get('events/index', [EventController::class, 'index'])->name('event.index');
 
 //Seçilen etkinliğe katılım sayfası
 Route::get('join/show/{event}', [EventRegistrationController::class, 'showPage'])->name('events.showPage');
 Route::post('join/register/{event}', [EventRegistrationController::class, 'register'])->name('events.register');
 
 
-//Katılım Onay Sayfaları//participant sayfası
+//Katılım Onay //participant sayfası
 Route::middleware('auth')->group(function () {
     // Kullanıcının kendi başvurularını takip etmesi için
     Route::get('/myRegistrations', [EventRegistrationController::class, 'myRegistrations'])->name('myRegistrations');
+    //Başvurusunu iptal etmesi için
+    Route::post('/myRegistrationCancel/{myRegistrations}', [EventRegistrationController::class, 'myRegistrationCancel'])->name('myRegistrationCancel');
 });
 
 
 
 //Admin Dashboard
 Route::group(['prefix'=> 'admin'  ,  'middleware' => ['auth', 'admin']], function () {
-    Route::get('/indexA',  [EventRegistrationController::class, 'adminRegistrations'])
+    Route::get('/indexA',  [\App\Http\Controllers\AdminController::class, 'adminRegistrations'])
     ->name('admin.index');
 
+    // Etkinlik silme
+    Route::delete('/events/{id}', [\App\Http\Controllers\AdminController::class, 'deleteEvent'])
+    ->name('admin.deleteEvent');
 
 });
 Route::group(['prefix'=> 'organizer'  ,  'middleware' => ['auth', 'organizer' ]], function () {
@@ -53,7 +58,7 @@ Route::get('/category', [\App\Http\Controllers\CategoryController::class, 'creat
 Route::post('/category/create', [\App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
 
    //Başvuru onaylama
-    Route::get('/indexR', [EventRegistrationController::class, 'organizerIndex'])->name('organizer.registrations');
+    Route::get('/registration', [EventRegistrationController::class, 'organizerIndex'])->name('organizer.registrations');
     Route::patch('/event-registrations/{registrations}/status', [EventRegistrationController::class, 'updateStatus'])->name('event-registrations.update-status');
 
 

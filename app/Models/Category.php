@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 class Category extends Model
 {
     use SoftDeletes;
+    use HasFactory;
+    protected $table='categories';
 
    // public mixed $name;// mixed $name 'in herhangi bir türde değer alabileceğini belirtir
     protected $fillable = [//toplu atamada hangi alanlara atama yapılacağını belirtir
@@ -56,11 +58,7 @@ class Category extends Model
         return 'slug';
     }
 
-    // Kategori içindeki etkinlik sayısı
-    public function getEventsCountAttribute()
-    {
-        return $this->events()->count();
-    }
+
 
     // Aktif etkinlikleri getir
     public function activeEvents()

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->datetime('registration_end')->default(now()->addWeek()); // 1 hafta sonra
             $table->integer('max_participants')->nullable();
             $table->decimal('price', 8, 2)->default(0);
-            $table->enum('status', ['draft', 'published', 'cancelled'])->default('draft');//durum(taslak,yaınlandı,iptal edildi)
+            $table->enum('status', ['draft', 'published'])->default('draft');//durum(taslak,yaınlandı)
             $table->foreignId('organizer_id')->constrained('users');//Bu tabloya organizer_id adında bir yabancı anahtar ekle ve bu alanın değerlerinin users tablosunun id sütununda bulunmasını zorunlu kılar
             $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();//created_at ve updated_at sütunlarını ekler

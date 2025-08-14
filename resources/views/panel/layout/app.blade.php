@@ -86,7 +86,7 @@
                 </a>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="{{route('events.index')}}">
+                <a class="nav-link" href="{{route('event.index')}}">
                     <span class="menu-icon">
                         <i class="mdi mdi-playlist-play"></i>
                     </span>
@@ -200,8 +200,14 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                <div class="card m-5">
-                    @yield('content')
+                <div class="row">
+                    <div class="col-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                @yield('content')
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

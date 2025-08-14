@@ -48,19 +48,23 @@ class EventRegistrationController extends Controller
         ]);
         return back()->with('success', 'Başvurunuz başarıyla alındı. Onay bekleniyor.');
     }
-    public function cancel(Event $event)
+    public function myRegistrationCancel($myRegistrations, Request $request)
     {
-        $registration = EventRegistration::where([
-            'event_id' => $event->id,
-            'user_id' => auth()->id()
-        ])->first();
+        $registration = EventRegistration::findOrFail($myRegistrations);
 
-        if ($registration) {
-            $registration->update(['status' => 'cancelled']);
-            return back()->with('success', 'Başvurunuz iptal edildi.');
+        // Kullanıcının kendi başvurusu mu kontrol et
+        if ($registration->user_id !== auth()->id()) {
+            return back()->with('error', 'Bu başvuruya erişim yetkiniz yok.');
         }
 
-        return back()->with('error', 'İptal edilecek başvuru bulunamadı.');
+        // Status kontrolü yap
+        if ($registration->status !== 'pending') {
+            return back()->with('error', 'Sadece bekleyen başvurular iptal edilebilir.');
+        }
+
+        // İptal işlemi
+        $registration->update(['status' => 'cancelled']);
+        return back()->with('success', 'Başvurunuz iptal edildi.');
     }
 
     public function showPage(Event $event){
@@ -77,23 +81,8 @@ class EventRegistrationController extends Controller
         ]);
     }
 
-    //Tüm Eventregistrationdaki organizer_id si aynı olan başvuruları getir
 
-    public function organizerPage()
-    {
-        $registrations = EventRegistration::where('organizer_id' ); // get() yerine all() kullanın
 
-        // Kayıtların gelip gelmediğini kontrol edin
-        if ($registrations->isEmpty()) {
-            \Log::warning('Başvuru yok!');
-        }
-
-        return view('panel.eventRegistration.index')->with([
-            'event_registrations' => $registrations,
-            'statuses' => ['pending', 'approved', 'rejected', 'cancelled'] // Örnek ek veri
-        ]);
-
-    }
 
 
 
@@ -112,6 +101,10 @@ class EventRegistrationController extends Controller
             )
             ->orderBy('event_registrations.registered_at', 'desc')
             ->get();
+        // Kayıtların gelip gelmediğini kontrol edin
+        if ($registrations->isEmpty()) {
+            \Log::warning('Başvuru yok!');
+        }
 
         return view('panel.eventRegistration.index', compact('registrations'));
     }
@@ -151,38 +144,6 @@ class EventRegistrationController extends Controller
         return view('panel.eventRegistration.myRegistrations', compact('myRegistrations'));
     }
 
-    //Admin sayfasında tüm kayıtlar
-    public function adminRegistrations()
-    {
-        // Get all event registrations with related organizer and user data
-        $registrations = EventRegistration::with([ 'user', 'event'])
-            ->latest()
-            ->get();
 
-
-
-        // Kayıtların gelip gelmediğini kontrol edin
-        if ($registrations->isEmpty()) {
-            \Log::warning('Başvuru yok!');
-        }
-
-        $formattedRegistrations = $registrations->map(function ($registration) {
-            return [
-                'id' => $registration->id,
-                'event_name' => $registration->event->name ?? 'N/A',
-                'organizer_name' => $registration->event->organizer_id->name ?? 'N/A',
-                'user_name' => $registration->user->name ?? 'N/A',
-                'status' => $registration->status,
-                'created_at' => $registration->created_at->format('Y-m-d H:i'),
-                'updated_at' => $registration->updated_at->format('Y-m-d H:i'),
-            ];
-        });
-
-        return view('panel.Admin.indexA')->with([
-            'event_registrations' => $formattedRegistrations,
-            'statuses' => ['pending', 'approved', 'rejected', 'cancelled'],
-            'total_registrations' => $registrations->count(),
-        ]);
-    }
 
 }

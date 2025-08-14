@@ -26,9 +26,21 @@
 
         <div class="list-group">
 
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-info">{{ $myRegistration->event->title}}</a>
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light">{{  $myRegistration->created_at->format('d.m.Y H:i') }}</a>
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-light">{{ $myRegistration->status }}</a>
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-info">Etkinlik: {{ $myRegistration->event->title}}</a>
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-light">BaşLangıç Tarihi: {{  $myRegistration->created_at->format('d.m.Y H:i') }}</a>
+                    <a href="#" class="list-group-item list-group-item-action list-group-item-light">Başvuru Durumu: {{ $myRegistration->status }}</a>
+
+                    @if($myRegistration->status == 'pending')
+                        <form method="post" action="{{route('myRegistrationCancel', $myRegistrations=$myRegistration->id)}}">
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-lg">İptal Et</button>
+                        </form>
+                    @else
+                        <form method="post" action="{{route('myRegistrationCancel', $myRegistrations=$myRegistration->id)}}">
+                            @csrf
+                            <button type="submit" class="btn btn-secondary btn-lg">İptal Et</button>
+                        </form>
+                    @endif
 
 
         </div>
@@ -36,4 +48,14 @@
 </div>
     @endforeach
 
+    <script>
+        function showWarning(status, id) {
+            const warningDiv = document.getElementById('warning-' + id);
+            if (warningDiv.style.display === 'none') {
+                warningDiv.style.display = 'block';
+            } else {
+                warningDiv.style.display = 'none';
+            }
+        }
+    </script>
 @endsection

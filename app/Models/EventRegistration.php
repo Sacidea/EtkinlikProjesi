@@ -35,7 +35,34 @@ class EventRegistration extends Model
 
 
 
+// EventRegistration modelinde
+    public function getStatusColorAttribute()
+    {
+        return match($this->status) {
+            'pending' => 'warning',
+            'approved' => 'success',
+            'cancelled' => 'secondary',
+            'rejected' => 'danger',
+            default => 'info'
+        };
+    }
 
+    public function getStatusTextAttribute()
+    {
+        return match($this->status) {
+            'pending' => 'Beklemede',
+            'approved' => 'Onaylandı',
+            'cancelled' => 'İptal Edildi',
+            'rejected' => 'Reddedildi',
+            default => 'Bilinmeyen'
+        };
+    }
+
+    public function canBeCancelled()
+    {
+        return $this->status === 'pending' &&
+            $this->event->start_date > now();
+    }
 
 
 }
