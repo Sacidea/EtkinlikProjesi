@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
 use App\Models\EventRegistration;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Validation\Rule;
+
 class AdminController extends Controller
 {
     //Admin sayfasında tüm kayıtlar
@@ -119,28 +122,25 @@ class AdminController extends Controller
 
     }
     //Kullanıcı rolünü güncelle
-    public function updateUserRole(Request $request, $user){
-
+    public function updateUserRole(Request $request, User $user){
+        // Validasyon
         $request->validate([
             'role' => 'required|in:admin,organizer,participant'
         ]);
 
+        // Güncelleme
         $user->update([
-        'role' => $request->role
+            'role' => $request->role
         ]);
+        
         return redirect()->back()->with('success','Başarıyla Güncellendi');
     }
 
-    public function deleteUser($user)
+    public function deleteUser(User $user)
     {
-
-
         $user->delete();
 
-        return redirect()->back()->with('success', 'User başarıyla silindi.');
-
-
-
+        return redirect()->back()->with('success', 'Kullanıcı başarıyla silindi.');
     }
 
 }

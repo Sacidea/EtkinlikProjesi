@@ -9,7 +9,7 @@
                     <br>
                     <br>
                     <hr>
-                    
+
                     @if($errors->any())
                         <div class="alert alert-danger">
                             @foreach($errors->all() as $e)
@@ -23,12 +23,12 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                    
+
                     <div class="card-header">
                         <h4 class="card-title">Kullanıcı Yönetimi</h4>
                         <p class="card-description">Sistemdeki tüm kullanıcıları görüntüleyin ve yönetin</p>
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead class="table-dark">
@@ -54,7 +54,7 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <!-- Rol Güncelleme Formu -->
-                                            <form method="POST" action="{{route('admin.update-user-role', $user->id)}}" style="display: inline;">
+                                            <form method="POST" action="{{route('admin.update-user-role', $user)}}" style="display: inline;">
                                                 @csrf
                                                 @method('PATCH')
                                                 <select name="role" class="form-select form-select-sm" style="width: auto; display: inline-block;">
@@ -66,9 +66,9 @@
                                                     <i class="mdi mdi-account-edit"></i> Güncelle
                                                 </button>
                                             </form>
-                                            
+
                                             <!-- Kullanıcı Silme Formu -->
-                                            <form method="POST" action="{{route('admin.delete-user', $user->id)}}" style="display: inline;" 
+                                            <form method="POST" action="{{route('admin.delete-user', $user)}}" style="display: inline;"
                                                   onsubmit="return confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')">
                                                 @csrf
                                                 @method('DELETE')
@@ -83,7 +83,7 @@
                             </tbody>
                         </table>
                     </div>
-                    
+
                     <div class="mt-3">
                         <p class="text-muted">Toplam: {{ $users->count() }} kullanıcı bulundu</p>
                     </div>
