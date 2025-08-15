@@ -8,7 +8,8 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User;
-use Illuminate\Validation\Rule;
+
+
 
 class AdminController extends Controller
 {
@@ -122,17 +123,16 @@ class AdminController extends Controller
 
     }
     //Kullanıcı rolünü güncelle
-    public function updateUserRole(Request $request, User $user){
-        // Validasyon
+    public function updateUserRole(Request $request, User $user)
+    {
         $request->validate([
             'role' => 'required|in:admin,organizer,participant'
         ]);
 
-        // Güncelleme
         $user->update([
             'role' => $request->role
         ]);
-        
+
         return redirect()->back()->with('success','Başarıyla Güncellendi');
     }
 

@@ -57,7 +57,7 @@
                                             <form method="POST" action="{{route('admin.update-user-role', $user)}}" style="display: inline;">
                                                 @csrf
                                                 @method('PATCH')
-                                                <select name="role" class="form-select form-select-sm" style="width: auto; display: inline-block;">
+                                                <select name="role" class="form-select form-select-sm">
                                                     <option value="admin" {{$user->role == 'admin' ? 'selected' : ''}}>Admin</option>
                                                     <option value="organizer" {{$user->role == 'organizer' ? 'selected' : ''}}>Organizer</option>
                                                     <option value="participant" {{$user->role == 'participant' ? 'selected' : ''}}>Katılımcı</option>
