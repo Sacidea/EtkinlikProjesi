@@ -127,9 +127,16 @@
                 </a>
                 <div class="collapse" id="auth">
                     <ul class="nav flex-column sub-menu">
-
                         <li class="nav-item"> <a class="nav-link" href="{{route('login')}}"> Login </a></li>
                         <li class="nav-item"> <a class="nav-link" href="{{route('register')}}"> Register </a></li>
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="nav-link btn btn-link" style="border: none; background: none; padding: 0.5rem 1rem; color: #6c7293; text-decoration: none;">
+                                    <i class="mdi mdi-logout"></i> Logout
+                                </button>
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -187,6 +194,26 @@
                             </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item preview-item"></a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="userDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-account-circle"></i>
+                            <span class="ml-2">{{ Auth::user()->name ?? '' }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="#">
+                                <i class="mdi mdi-account text-primary"></i>
+                                Profile
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                                @csrf
+                                <button type="submit" class="dropdown-item" style="border: none; background: none; width: 100%; text-align: left; padding: 0.5rem 1rem;">
+                                    <i class="mdi mdi-logout text-danger"></i>
+                                    Logout
+                                </button>
+                            </form>
                         </div>
                     </li>
                 </ul>

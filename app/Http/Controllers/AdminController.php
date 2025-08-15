@@ -107,40 +107,51 @@ class AdminController extends Controller
     }
     //Tüm kullanıcıları listele
     public function userListPage(){
-
-
-        $users = User::withTrashed() // Silinenleri de getir
-        ->withoutGlobalScopes() // Global scope'ları devre dışı bırak
-        ->with(['organizedEvents', 'eventRegistrations']) // İlişkileri yükle
-        ->orderBy('created_at', 'desc')
+        $users = User::withoutTrashed() // Sadece aktif kullanıcıları getir
+            ->with(['organizedEvents', 'eventRegistrations']) // İlişkileri yükle
+            ->orderBy('created_at', 'desc')
             ->get();
+
         if ($users->isEmpty()) {
             \Log::warning('Kullanıcı yok!');
         }
 
-
         return view('panel.Admin.userList', compact('users'));
-
     }
     //Kullanıcı rolünü güncelle
-    public function updateUserRole(Request $request, User $user)
+    public function updateUserRole($userA)
     {
-        $request->validate([
-            'role' => 'required|in:admin,organizer,participant'
-        ]);
-
-        $user->update([
-            'role' => $request->role
-        ]);
-
-        return redirect()->back()->with('success','Başarıyla Güncellendi');
+        try {
+            $user = User::findOrFail($userA);
+            
+            // Kullanıcının mevcut rolünü kontrol et
+            if ($user->role === 'participant') {
+                $user->update(['role' => 'organizer']);
+                return back()->with('success', 'Kullanıcı rolü başarıyla organizer olarak güncellendi.');
+            } else {
+                return back()->with('error', 'Bu kullanıcının rolü zaten organizer veya admin.');
+            }
+        } catch (\Exception $e) {
+            \Log::error('Kullanıcı rolü güncelleme hatası: ' . $e->getMessage());
+            return back()->with('error', 'Kullanıcı rolü güncellenirken bir hata oluştu.');
+        }
     }
 
     public function deleteUser(User $user)
     {
-        $user->delete();
+        try {
+            // Kullanıcının kendisini silmesini engelle
+            if ($user->id === auth()->id()) {
+                return redirect()->back()->with('error', 'Kendinizi silemezsiniz!');
+            }
 
-        return redirect()->back()->with('success', 'Kullanıcı başarıyla silindi.');
+            $user->delete();
+
+            return redirect()->back()->with('success', 'Kullanıcı başarıyla silindi.');
+        } catch (\Exception $e) {
+            \Log::error('Kullanıcı silme hatası: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Kullanıcı silinirken bir hata oluştu.');
+        }
     }
 
 }

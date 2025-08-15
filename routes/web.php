@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventRegistrationController;
 
@@ -31,6 +32,7 @@ Route::get('register', function(){
     return view('auth.register');
 })->name('register');
 
+
 //Seçilen etkinliğe katılım sayfası
 Route::get('join/show/{event}', [EventRegistrationController::class, 'showPage'])->name('events.showPage');
 Route::post('join/register/{event}', [EventRegistrationController::class, 'register'])->name('events.register');
@@ -58,7 +60,7 @@ Route::group(['prefix'=> 'admin'  ,  'middleware' => ['auth', 'admin']], functio
     Route::get('/userList',  [\App\Http\Controllers\AdminController::class, 'userListPage'])
         ->name('admin.user-list-page');
 //User role güncelleme
-    Route::patch('/users/{user}', [\App\Http\Controllers\AdminController::class, 'updateUserRole'])
+    Route::post('/users/{userA}', [\App\Http\Controllers\AdminController::class, 'updateUserRole'])
         ->name('admin.update-user-role');
 
     // User silme

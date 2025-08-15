@@ -24,6 +24,12 @@
                         </div>
                     @endif
 
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <div class="card-header">
                         <h4 class="card-title">Kullanıcı Yönetimi</h4>
                         <p class="card-description">Sistemdeki tüm kullanıcıları görüntüleyin ve yönetin</p>
@@ -54,21 +60,18 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <!-- Rol Güncelleme Formu -->
-                                            <form method="POST" action="{{route('admin.update-user-role', $user)}}" style="display: inline;">
+                                            <form method="POST" action="{{route('admin.update-user-role', $user->id)}}" style="display: inline;">
                                                 @csrf
-                                                @method('PATCH')
-                                                <select name="role" class="form-select form-select-sm">
-                                                    <option value="admin" {{$user->role == 'admin' ? 'selected' : ''}}>Admin</option>
-                                                    <option value="organizer" {{$user->role == 'organizer' ? 'selected' : ''}}>Organizer</option>
-                                                    <option value="participant" {{$user->role == 'participant' ? 'selected' : ''}}>Katılımcı</option>
-                                                </select>
-                                                <button class="btn btn-success btn-sm" type="submit" title="Rol Güncelle">
-                                                    <i class="mdi mdi-account-edit"></i> Güncelle
+
+                                                @if($user->role=='participant')
+                                                <button class="btn btn-success btn-sm" type="submit" >
+                                                    <i class="mdi mdi-account-edit"></i>Yetki ver
                                                 </button>
+                                                @endif
                                             </form>
 
                                             <!-- Kullanıcı Silme Formu -->
-                                            <form method="POST" action="{{route('admin.delete-user', $user)}}" style="display: inline;"
+                                            <form method="POST" action="{{route('admin.delete-user', $user->id)}}" style="display: inline;"
                                                   onsubmit="return confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')">
                                                 @csrf
                                                 @method('DELETE')
