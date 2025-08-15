@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = [
+        $users = [   //$user değişkeni aşağıdaki foreach içinde tanımlanıyor
 
             ['name' => 'Admin',
                 'role' => 'admin',

@@ -104,7 +104,7 @@
             <form method="GET" action="{{ route('admin.index') }}" class="row g-3">
                 <div class="col-md-4">
                     <label for="search" class="form-label">Etkinlik Ara</label>
-                    <input type="text" class="form-control" id="search" name="search" 
+                    <input type="text" class="form-control" id="search" name="search"
                            value="{{ request('search') }}" placeholder="Etkinlik adı ara...">
                 </div>
                 <div class="col-md-3">
@@ -212,21 +212,21 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('events.showPage', $event->id ?? 0) }}" 
-                                           class="btn btn-sm btn-outline-primary" 
+                                        <a href="{{ route('events.showPage', $event->id ?? 0) }}"
+                                           class="btn btn-sm btn-outline-primary"
                                            title="Görüntüle" target="_blank">
                                             <i class="mdi mdi-eye"></i>
                                         </a>
-                                        
 
-                                        
-                                        <a href="{{ route('events.createPage') }}" 
-                                           class="btn btn-sm btn-outline-warning" 
+
+
+                                        <a href="{{ route('events.create') }}"
+                                           class="btn btn-sm btn-outline-warning"
                                            title="Düzenle">
                                             <i class="mdi mdi-pencil"></i>
                                         </a>
-                                        <form method="POST" action="{{ route('admin.deleteEvent', $event->id) }}" 
-                                              style="display: inline;" 
+                                        <form method="POST" action="{{ route('admin.deleteEvent', $event->id) }}"
+                                              style="display: inline;"
                                               onsubmit="return confirm('Bu etkinliği silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')">
                                             @csrf
                                             @method('DELETE')

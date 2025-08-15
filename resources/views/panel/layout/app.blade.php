@@ -28,8 +28,8 @@
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-            <a class="sidebar-brand brand-logo" href="index.html"><img src="{{asset('panel/assets/images/logo.svg')}}" alt="logo" /></a>
-            <a class="sidebar-brand brand-logo-mini" href="index.html"><img src="{{asset('panel/assets/images/logo-mini.svg')}}" alt="logo" /></a>
+            <a class="sidebar-brand brand-logo" href="#"><img src="{{asset('panel/assets/images/logo.svg')}}" alt="logo" /></a>
+            <a class="sidebar-brand brand-logo-mini" href="#"><img src="{{asset('panel/assets/images/logo-mini.svg')}}" alt="logo" /></a>
         </div>
         <ul class="nav">
             <li class="nav-item profile">
@@ -78,7 +78,7 @@
                 <span class="nav-link">Navigation</span>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="{{route('admin.index')}}">
                     <span class="menu-icon">
                         <i class="mdi mdi-speedometer"></i>
                     </span>
@@ -127,20 +127,18 @@
                 </a>
                 <div class="collapse" id="auth">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
+
+                        <li class="nav-item"> <a class="nav-link" href="{{route('login')}}"> Login </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('register')}}"> Register </a></li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item menu-items">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{{route('admin.user-list-page')}}">
                     <span class="menu-icon">
                         <i class="mdi mdi-file-document-box"></i>
                     </span>
-                    <span class="menu-title">Documentation</span>
+                    <span class="menu-title">Kullanıcı Listesi</span>
                 </a>
             </li>
         </ul>
@@ -150,7 +148,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row">
             <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{asset('panel/assets/images/logo-mini.svg')}}" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="#"><img src="{{asset('panel/assets/images/logo-mini.svg')}}" alt="logo" /></a>
             </div>
             <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -200,15 +198,7 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                <div class="row">
-                    <div class="col-12 grid-margin stretch-card">
-                        <div class="card">
-                            <div class="card-body">
-                                @yield('content')
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @yield('content')
             </div>
         </div>
     </div>

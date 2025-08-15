@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -65,7 +67,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
@@ -73,5 +75,46 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
+
+
+        // Giriş sonrası yönlendirme
+        $this->app->singleton(LoginResponse::class, function () {
+            return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    $user = auth()->user();
+
+                    if ($user->role === 'admin') {
+                        return redirect()->route('admin.index');
+                    } elseif ($user->role === 'organizer') {
+                        return redirect()->route('organizer.registrations');
+                    } else {
+                        return redirect('/');
+                    }
+                }
+            };
+
+
+        });
+
+        // Kayıt sonrası yönlendirme (register)
+        $this->app->singleton(RegisterResponse::class, function () {
+            return new class implements RegisterResponse {
+                public function toResponse($request)
+                {
+                    $user = auth()->user();
+
+                    if ($user->role === 'admin') {
+                        return redirect()->route('admin.index');
+                    } elseif ($user->role === 'editor') {
+                        return redirect()->route('organizer.registrations');
+                    } else {
+                        return redirect('/');
+                    }
+                }
+            };
+        });
     }
+
+
 }

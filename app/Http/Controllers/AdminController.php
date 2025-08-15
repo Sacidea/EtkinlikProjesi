@@ -6,7 +6,7 @@ use App\Models\EventRegistration;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use App\Models\User;
 class AdminController extends Controller
 {
     //Admin sayfasında tüm kayıtlar
@@ -30,7 +30,7 @@ class AdminController extends Controller
         // Tarih filtresi
         if ($request->filled('date')) {
             $today = Carbon::today();
-            
+
             switch ($request->date) {
                 case 'today':
                     $query->whereDate('start_date', $today);
@@ -66,7 +66,7 @@ class AdminController extends Controller
     public function updateEventStatus(Request $request, $id)
     {
         $event = Event::findOrFail($id);
-        
+
         $request->validate([
             'status' => 'required|in:published,draft,cancelled'
         ]);
@@ -89,13 +89,59 @@ class AdminController extends Controller
     public function deleteEvent($id)
     {
         $event = Event::findOrFail($id);
-        
+
         // Önce etkinliğe ait kayıtları sil
         $event->registrations()->delete();
-        
+
         // Sonra etkinliği sil
         $event->delete();
 
         return redirect()->back()->with('success', 'Etkinlik başarıyla silindi.');
+
+
+
     }
+    //Tüm kullanıcıları listele
+    public function userListPage(){
+
+
+        $users = User::withTrashed() // Silinenleri de getir
+        ->withoutGlobalScopes() // Global scope'ları devre dışı bırak
+        ->with(['organizedEvents', 'eventRegistrations']) // İlişkileri yükle
+        ->orderBy('created_at', 'desc')
+            ->get();
+        if ($users->isEmpty()) {
+            \Log::warning('Kullanıcı yok!');
+        }
+
+
+        return view('panel.Admin.userList', compact('users'));
+
+    }
+    //Kullanıcı rolünü güncelle
+    public function updateUserRole(Request $request, $user){
+
+        $request->validate([
+            'role' => 'required|in:admin,organizer,participant'
+        ]);
+
+        $user->update([
+        'role' => $request->role
+        ]);
+        return redirect()->back()->with('success','Başarıyla Güncellendi');
+    }
+
+    public function deleteUser($user)
+    {
+
+
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User başarıyla silindi.');
+
+
+
+    }
+
 }
+
