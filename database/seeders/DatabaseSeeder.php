@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Event;
+use App\Models\EventRegistration;
 use Database\Seeders\CategorySeeder; // Laravel 8 ve sonrası import
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,6 +25,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CategorySeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(EventSeeder::class);
+        $this->call(EventRegistrationSeeder::class);
 
 
     }

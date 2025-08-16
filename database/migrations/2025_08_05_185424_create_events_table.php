@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('image')->nullable();
             $table->string('location');
-            $table->datetime('start_date');
+            $table->datetime('start_date');//Etkinlik başlangış tarihi
             $table->datetime('end_date');
             $table->datetime('registration_start')->default(now()); // Şu anki zaman
             $table->datetime('registration_end')->default(now()->addWeek()); // 1 hafta sonra

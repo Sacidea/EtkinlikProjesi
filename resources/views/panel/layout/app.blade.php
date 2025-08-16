@@ -170,7 +170,7 @@
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item dropdown d-none d-lg-block">
-                        <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" aria-expanded="false" href="{{route('events.createPage')}}">+ Create New Events</a>
+                        <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" aria-expanded="false" href="{{route('events.createPage')}}">+ Yeni Etkinlik Oluştur</a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
                             <div class="preview-item-content">
                                 <p class="preview-subject ellipsis mb-1">UI Development</p>

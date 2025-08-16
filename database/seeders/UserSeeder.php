@@ -110,6 +110,37 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('12345678'),
                 'email_verified_at' => now()
             ],
+            ['name' =>'Deniz Han',
+                'role' => 'participant',
+                'email' =>'participant'.Str::random(8).'@gmail.com',
+                'password' => bcrypt('12345678'),
+                'email_verified_at' => now()
+            ],
+            ['name' =>'Alara Çetin',
+                'role' => 'participant',
+                'email' =>'participant'.Str::random(8).'@gmail.com',
+                'password' => bcrypt('12345678'),
+                'email_verified_at' => now()
+            ],
+            ['name' =>'Mira Öztürk',
+                'role' => 'participant',
+                'email' =>'participant'.Str::random(8).'@gmail.com',
+                'password' => bcrypt('12345678'),
+                'email_verified_at' => now()
+            ],
+            ['name' =>'Çağla Bahar',
+                'role' => 'participant',
+                'email' =>'participant'.Str::random(8).'@gmail.com',
+                'password' => bcrypt('12345678'),
+                'email_verified_at' => now()
+            ],
+            ['name' =>'Aylin Bilge',
+                'role' => 'participant',
+                'email' =>'participant'.Str::random(8).'@gmail.com',
+                'password' => bcrypt('12345678'),
+                'email_verified_at' => now()
+            ],
+
 
 
         ];
