@@ -51,7 +51,10 @@ class Event extends Model
         return $this->belongsTo(Category::class);
     }
 
-
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     // Helper metodlar
     public function isRegistrationOpen(): bool//Kayıtların şu an açık olup olmadığını kontrol eder.

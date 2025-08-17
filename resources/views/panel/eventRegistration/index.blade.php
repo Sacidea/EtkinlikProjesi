@@ -48,8 +48,13 @@
                                         <input type="hidden" name="status" value="rejected">
                                         <button type="submit" class="btn btn-sm btn-danger">Reddet</button>
                                     </form>
-
-
+                                @else
+                                    <form method="POST" action="{{ route('event-registrations.update-status', $registration) }}" style="display:inline;">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="pending">
+                                        <button type="submit" class="btn btn-sm btn-info">Geri Al</button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>

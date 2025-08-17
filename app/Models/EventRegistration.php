@@ -25,7 +25,7 @@ class EventRegistration extends Model
 
     public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Event::class)->withTrashed();
     }
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo

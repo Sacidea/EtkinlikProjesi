@@ -60,9 +60,9 @@
                             </div>
                         </div>
 
-                        <div class="card-footer bg-white">
+                        <div class="card-footer bg-gray-dark">
                             <a href="{{ route('events.showPage', ['event' => $e->id]) }}"
-                               class="btn btn-primary btn-block">
+                               class="btn btn-info btn-block">
                                 Etkinlik Detayları
                             </a>
                         </div>

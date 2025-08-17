@@ -80,11 +80,11 @@ Route::post('/category/create', [\App\Http\Controllers\CategoryController::class
 
 
     //Organizer-index
-    Route::get('/indexO', [EventController::class, 'OrganizerIndex'])->name('organizer.index');//Liste
+    Route::get('/index', [EventController::class, 'OrganizerIndex'])->name('organizer.index');//Liste
     //yeni etkinlik oluştur
 Route::get('/events/createPage', [EventController::class, 'createPage'])->name('events.createPage');
 Route::post('/create', [EventController::class, 'create'])->name('events.create');
-Route::get('/events-update-page/{myEvent}', [EventController::class, 'eventUpdatePage'])->name('events.updatePage');//Form
-Route::post('/events-update', [EventController::class, 'update'])->name('events.update');
+Route::get('/events-update-page/{myEvent}', [EventController::class, 'eventUpdatePage'])->name('events.updatePage');//Forma seçilen event bilgilerini getirir
+Route::post('/events-update', [EventController::class, 'update'])->name('events.update');//Event güncelleme
     Route::post('/event/delete/{myEvent}', [EventController::class, 'eventDelete'])->name('organizer.events.delete');
 });

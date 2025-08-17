@@ -21,7 +21,7 @@ class EventSeeder extends Seeder
                 'description'=>'Ankara’da doğan ve hayatı boyunca orada yaşayan Lin Pesto’nun kayıt teknolojileri ve pop müziğe karşı ilgisi, YouTube’da paylaştığı cover’lara ve kendi bestelediği şarkılara kadar uzandı. Bülent Ersoy’un Maazallah şarkısının yorumuyla binlerce kişiye erişti. 2019’da prodüktörlüğünü Taner Yücel’in üstlendiği SON isimli, synth-pop ağırlıklı ilk kısaçalarını yayımladı. 2024 başında ‘Üzgün’ ve ‘Gözyaşı Odası’ adlı teklileriyle sessizliğini bozan Lin Pesto,
                 ilk uzunçaları KABUL’ün lansmanı için Salon’un yolunu tutuyor.',
                 'image'=>'Event1.jpg',
-                'location'=>'Salon1',
+                'location'=>'Kültür Sanat Merkezi-Salon1',
                 'start_date' => '2025-08-01 14:30:00',
                 'end_date' => '2025-09-01 14:30:00',
                 'registration_start' => Carbon::now()->subDays(30)->format('Y-m-d H:i:s'),

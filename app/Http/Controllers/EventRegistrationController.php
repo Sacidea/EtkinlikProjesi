@@ -49,24 +49,6 @@ class EventRegistrationController extends Controller
         ]);
         return back()->with('success', 'Başvurunuz başarıyla alındı. Onay bekleniyor.');
     }
-    public function myRegistrationCancel($myRegistrations, Request $request)
-    {
-        $registration = EventRegistration::findOrFail($myRegistrations);
-
-        // Kullanıcının kendi başvurusu mu kontrol et
-        if ($registration->user_id !== auth()->id()) {
-            return back()->with('error', 'Bu başvuruya erişim yetkiniz yok.');
-        }
-
-        // Status kontrolü yap
-        if ($registration->status !== 'pending') {
-            return back()->with('error', 'Sadece bekleyen başvurular iptal edilebilir.');
-        }
-
-        // İptal işlemi
-        $registration->update(['status' => 'cancelled']);
-        return back()->with('success', 'Başvurunuz iptal edildi.');
-    }
 
     public function showPage(Event $event){
         $userRegistration = null;
@@ -147,16 +129,38 @@ class EventRegistrationController extends Controller
     }
 
     // Kullanıcının kendi başvurularını listele
+    // app/Http/Controllers/EventRegistrationController.php
     public function myRegistrations()
     {
-        $myRegistrations = EventRegistration::with('event','category')
+        $myRegistrations = EventRegistration::with(['event' => function($query) {
+            $query->withTrashed()->with(['category' => function($q) {
+                $q->withTrashed();
+            }]);
+        }])
             ->where('user_id', auth()->id())
             ->orderBy('registered_at', 'desc')
             ->get();
 
         return view('panel.eventRegistration.myRegistrations', compact('myRegistrations'));
     }
+//Kullanıcının kendi başvurusunu iptal etmesi
+    public function myRegistrationCancel(Request $request,$myRegistrations, )
+    {
+        $registration = EventRegistration::findOrFail($myRegistrations);
 
+        // Kullanıcının kendi başvurusu mu kontrol et
+        if ($registration->user_id !== auth()->id()) {
+            return back()->with('error', 'Bu başvuruya erişim yetkiniz yok.');
+        }
 
+        // Status kontrolü yap
+        if ($registration->status !== 'pending') {
+            return back()->with('error', 'Sadece bekleyen başvurular iptal edilebilir.');
+        }
+
+        // İptal işlemi
+        $registration->update(['status' => 'cancelled']);
+        return back()->with('success', 'Başvurunuz iptal edildi.');
+    }
 
 }
