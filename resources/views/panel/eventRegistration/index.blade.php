@@ -1,8 +1,10 @@
+
+<!-- Orgaanizer Başvuru Yönetimi -->
 @extends('panel.layout.app')
 
 @section('content')
     <div class="container">
-        <h2>Etkinliklerime Yapılan Başvurular</h2>
+        <h2>Etkinliklerinize Yapılan Başvurular</h2>
 
         @if($registrations->isEmpty())
             <p>Henüz başvuru bulunmuyor.</p>

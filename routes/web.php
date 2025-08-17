@@ -78,9 +78,13 @@ Route::post('/category/create', [\App\Http\Controllers\CategoryController::class
     Route::patch('/event-registrations/{registrations}/status', [EventRegistrationController::class, 'updateStatus'])->name('event-registrations.update-status');
 
 
+
+    //Organizer-index
+    Route::get('/indexO', [EventController::class, 'OrganizerIndex'])->name('organizer.index');//Liste
     //yeni etkinlik oluştur
-    Route::get('/index/event', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/createPage', [EventController::class, 'createPage'])->name('events.createPage');
 Route::post('/create', [EventController::class, 'create'])->name('events.create');
-
+Route::get('/events-update-page/{myEvent}', [EventController::class, 'eventUpdatePage'])->name('events.updatePage');//Form
+Route::post('/events-update', [EventController::class, 'update'])->name('events.update');
+    Route::post('/event/delete/{myEvent}', [EventController::class, 'eventDelete'])->name('organizer.events.delete');
 });

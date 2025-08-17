@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -36,8 +37,10 @@ class EventController extends Controller
 
         $events = $query->paginate(12);//Sayfada 12 şerli gruplarla listeyi gösterir
         $categories = Category::all();
-       //KATEGORİ LİSTELEME
-        $etkinlikler=Event::all();
+       //LİSTELEME
+        $etkinlikler = Event::where('status', 'published')
+            ->where('registration_end', '>', now())
+            ->get();
 
 
         return view('panel.events.index', compact('events', 'categories','etkinlikler'));
@@ -98,7 +101,7 @@ class EventController extends Controller
         $event->category_id = $request->category_id;
         $event->save();
 
-        return redirect()->route('events.index')
+        return redirect()->route('event.index')
             ->with('success', 'Etkinlik başarıyla oluşturuldu!');
     }
 
@@ -133,39 +136,75 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-
-
-
-    public function mount()
+    public function organizerIndex()
     {
-        // Admin ise özel yetkiler ver
-        $this->isAdmin = auth()->user()->is_admin ?? false;
+        $events = Event::where('organizer_id', auth()->id())
+            ->get();
+
+        return view('panel.events.myEvent', compact('events'));
     }
 
-    public $isAdmin = false;
 
-// Sadece admin silebilir
-    public function delete($id)
+
+
+
+
+    public function eventUpdatePage( Event $myEvent)
     {
-        if (!$this->isAdmin) {
-            session()->flash('error', 'Bu işlem için admin yetkisi gerekli!');
-            return;
+
+
+
+        $categories = Category::all();
+
+
+        return view('panel.events.myEventUpdate',compact('myEvent','categories') );//redirect kullandığım için hata aldım sonsuz döngüye sebep oldu view kullanılmalı
         }
 
-        Event::find($id)->delete();
-        session()->flash('message', 'Etkinlik silindi.');
-    }
-
-// Sadece admin düzenleyebilir
-    public function edit($id)
+    public function update(Request $request)
     {
-        if (!$this->isAdmin) {
-            session()->flash('error', 'Bu işlem için admin yetkisi gerekli!');
-            return;
+        // Validation kuralları
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'location' => 'required',
+            'status' => 'required|in:published,draft',
+            'category_id' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $event = Event::find($request->id);
+        // Resim yükleme işlemi
+
+        // Resim yükleme işlemi (sadece yeni resim yüklenirse)
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            // Eski resmi sil
+            if ($event->image) {
+                Storage::disk('public')->delete($event->image);
+            }
+
+            $validated['image'] = $request->file('image')->store('events', 'public');
         }
 
-        // Düzenleme kodları...
-    }
-    //******
+        // Sadece değişen alanları güncelle
+        $event->update($validated);
 
+        return redirect()->route('organizer.index')
+            ->with('success', 'Etkinlik başarıyla güncellendi!');
+    }
+
+
+    public function eventDelete(Event $myEvent)
+    {
+        // Yetki kontrolü - sadece etkinlik sahibi silebilir
+        if ($myEvent->organizer_id != auth()->id()) {
+            abort(403, 'Bu işlem için yetkiniz yok.');
+        }
+
+        $myEvent->delete();
+
+        return redirect()->route('organizer.index')
+            ->with('success', 'Etkinlik başarıyla silindi.');
+    }
 }

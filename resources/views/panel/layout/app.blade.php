@@ -77,20 +77,34 @@
             <li class="nav-item nav-category">
                 <span class="nav-link">Navigation</span>
             </li>
+            @if(Auth::check() && ( Auth::user()->role === 'admin'))
+
             <li class="nav-item menu-items">
                 <a class="nav-link" href="{{route('admin.index')}}">
                     <span class="menu-icon">
                         <i class="mdi mdi-speedometer"></i>
                     </span>
-                    <span class="menu-title">Dashboard</span>
+                    <span class="menu-title">Admin Dashboard</span>
                 </a>
             </li>
+            @endif
+            @if(Auth::check() && ( Auth::user()->role === 'organizer'))
+
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{{route('organizer.index')}}">
+                    <span class="menu-icon">
+                        <i class="mdi mdi-speedometer"></i>
+                    </span>
+                        <span class="menu-title">Organizasyonlarınız</span>
+                    </a>
+                </li>
+            @endif
             <li class="nav-item menu-items">
                 <a class="nav-link" href="{{route('event.index')}}">
                     <span class="menu-icon">
                         <i class="mdi mdi-playlist-play"></i>
                     </span>
-                    <span class="menu-title">Etkinlikler</span>
+                    <span class="menu-title">Kültür&Sanat Takvimi</span>
                 </a>
             </li>
             <li class="nav-item menu-items">
@@ -101,6 +115,8 @@
                     <span class="menu-title">Başvurularım</span>
                 </a>
             </li>
+            @if(Auth::check() && (Auth::user()->role === 'organizer' || Auth::user()->role === 'admin'))
+
             <li class="nav-item menu-items">
                 <a class="nav-link" href="{{route('organizer.registrations')}}">
                     <span class="menu-icon">
@@ -109,6 +125,9 @@
                     <span class="menu-title">Etkinlik Yönetimi</span>
                 </a>
             </li>
+
+
+
             <li class="nav-item menu-items">
                 <a class="nav-link" href="{{route('category.createPage')}}">
                     <span class="menu-icon">
@@ -117,6 +136,7 @@
                     <span class="menu-title">Kategori Oluştur</span>
                 </a>
             </li>
+            @endif
             <li class="nav-item menu-items">
                 <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                     <span class="menu-icon">
@@ -140,6 +160,8 @@
                     </ul>
                 </div>
             </li>
+            @if(Auth::check() && (Auth::user()->role === 'admin'))
+
             <li class="nav-item menu-items">
                 <a class="nav-link" href="{{route('admin.user-list-page')}}">
                     <span class="menu-icon">
@@ -148,6 +170,7 @@
                     <span class="menu-title">Kullanıcı Listesi</span>
                 </a>
             </li>
+            @endif
         </ul>
     </nav>
     <!-- partial -->
@@ -162,16 +185,16 @@
                     <span class="mdi mdi-menu"></span>
                 </button>
                 <ul class="navbar-nav w-100">
-                    <li class="nav-item w-100">
-                        <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                            <input type="text" class="form-control" placeholder="Search products">
-                        </form>
-                    </li>
+
                 </ul>
                 <ul class="navbar-nav navbar-nav-right">
+
                     <li class="nav-item dropdown d-none d-lg-block">
+                        @if(Auth::check() && (Auth::user()->role === 'organizer' || Auth::user()->role === 'admin'))
                         <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" aria-expanded="false" href="{{route('events.createPage')}}">+ Yeni Etkinlik Oluştur</a>
+                        @endif
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
+
                             <div class="preview-item-content">
                                 <p class="preview-subject ellipsis mb-1">UI Development</p>
                             </div>
@@ -202,9 +225,9 @@
                             <span class="ml-2">{{ Auth::user()->name ?? '' }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" href="{{ route('profile.show') }}">
                                 <i class="mdi mdi-account text-primary"></i>
-                                Profile
+                                Profil
                             </a>
                             <div class="dropdown-divider"></div>
                             <form method="POST" action="{{ route('logout') }}" style="display: inline;">

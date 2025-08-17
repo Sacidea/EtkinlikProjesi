@@ -8,7 +8,7 @@
             <i class="mdi mdi-plus-circle text-primary"></i>
             Yeni Kategori Oluştur
         </h4>
-        <a href="{{ route('events.index') }}" class="btn btn-outline-secondary btn-sm">
+        <a href="{{ route('event.index') }}" class="btn btn-outline-secondary btn-sm">
             <i class="mdi mdi-arrow-left"></i> Geri Dön
         </a>
     </div>
@@ -40,7 +40,7 @@
                 <div class="card-body">
                     <form action="{{ route('category.create') }}" method="post">
                         @csrf
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
@@ -48,11 +48,11 @@
                                         <i class="mdi mdi-tag text-primary"></i>
                                         Kategori Adı <span class="text-danger">*</span>
                                     </label>
-                                    <input 
-                                        type="text" 
-                                        name="name" 
+                                    <input
+                                        type="text"
+                                        name="name"
                                         id="name"
-                                        class="form-control @error('name') is-invalid @enderror" 
+                                        class="form-control @error('name') is-invalid @enderror"
                                         placeholder="Kategori adını giriniz"
                                         value="{{ old('name') }}"
                                         required
@@ -62,18 +62,18 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="slug" class="form-label">
                                         <i class="mdi mdi-link text-primary"></i>
                                         Slug
                                     </label>
-                                    <input 
-                                        type="text" 
-                                        name="slug" 
+                                    <input
+                                        type="text"
+                                        name="slug"
                                         id="slug"
-                                        class="form-control @error('slug') is-invalid @enderror" 
+                                        class="form-control @error('slug') is-invalid @enderror"
                                         placeholder="kategori-slug"
                                         value="{{ old('slug') }}"
                                     >
@@ -89,10 +89,10 @@
                                 <i class="mdi mdi-text text-primary"></i>
                                 Açıklama
                             </label>
-                            <textarea 
-                                name="description" 
+                            <textarea
+                                name="description"
                                 id="description"
-                                class="form-control @error('description') is-invalid @enderror" 
+                                class="form-control @error('description') is-invalid @enderror"
                                 rows="4"
                                 placeholder="Kategori açıklamasını giriniz"
                             >{{ old('description') }}</textarea>
@@ -102,7 +102,7 @@
                         </div>
 
                         <div class="d-flex justify-content-end gap-2">
-                            <a href="{{ route('events.index') }}" class="btn btn-light">
+                            <a href="{{ route('event.index') }}" class="btn btn-light">
                                 <i class="mdi mdi-close"></i> İptal
                             </a>
                             <button type="submit" class="btn btn-primary">

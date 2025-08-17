@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
         <h1>Etkinlikler</h1>
-        <br>
+
         <br>
         <hr>
         @if($errors->any())
@@ -18,69 +18,60 @@
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
-
-                </div>
+            </div>
         @endif
-        <!-- Arama ve filtre bölümü -->
+
+        <!-- Arama bölümü -->
         <div class="row mb-4 ml-2">
             <div class="col-md-8">
                 <form method="GET">
-                    <input type="text" name="search" placeholder="Etkinlik ara...">
-                    <button type="submit">Ara</button>
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Etkinlik ara...">
+                        <button type="submit" class="btn btn-primary">Ara</button>
+                    </div>
                 </form>
             </div>
         </div>
 
         <!-- Etkinlik kartları -->
+        <div class="row">
+            @foreach($etkinlikler as $e)
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        @if($e->image)
+                            <img src="{{ asset('panel/assets/images/'.$e->image) }}"
+                                 alt="Event Image"
+                                 class="card-img-top"
+                                 style="object-fit: cover; height: 200px;">
+                        @else
+                            <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center"
+                                 style="height: 200px;">
+                                Resim bulunamadı
+                            </div>
+                        @endif
 
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $e->title }}</h5>
+                            <div class="card-text">
+                                <p><strong>Başlangıç:</strong> {{ $e->start_date }}</p>
+                                <p><strong>Bitiş:</strong> {{ $e->end_date }}</p>
+                                <p><strong>Lokasyon:</strong> {{ $e->location }}</p>
+                                <p><strong>Ücret:</strong> {{ $e->price }} TL</p>
+                            </div>
+                        </div>
 
-        <div class="card-body">
-            <h4 class="card-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></h4>
-
-            <div class="table-responsive">
-                <table class="table table-striped ">
-                    <thead>
-                    <tr>
-                        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Başlık</font></font></th>
-                        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Açıklama</font></font></th>
-                        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Başlangıç Tarihi</font></font></th>
-                        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bitiş Tarihi</font></font></th>
-                        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lokasyon</font></font></th>
-                        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ücret</font></font></th>
-                        <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Durum</font></font></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($etkinlikler as $e)
-                    <tr>
-
-                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$e->title}}</font></font></td>
-                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$e->description}}</font></font></td>
-                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$e->start_date}} </font></font></td>
-                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$e->end_date}} </font></font></td>
-                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$e->location}}</font></font></td>
-                        <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$e->price}} </font></font></td>
-                        <td><label class="badge badge-pill badge-info"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{$e->status}}</font></font></label></td>
-                        <td><a class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"href="{{ route('events.showPage', ['event' => $e->id]) }}">Etkinlik Detayları</a></td>
-
-
-
-
-
-
-                    </tr>
-
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        <div class="card-footer bg-white">
+                            <a href="{{ route('events.showPage', ['event' => $e->id]) }}"
+                               class="btn btn-primary btn-block">
+                                Etkinlik Detayları
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
 
+        <!-- Sayfalama -->
 
-               <!-- Sadece admin görebilir-->
-
-
-
-        {{ $events->links() }} <!-- Sayfalama -->
-
+    </div>
 @endsection

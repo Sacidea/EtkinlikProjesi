@@ -44,6 +44,7 @@ class EventRegistrationController extends Controller
             'event_id' => $event->id,
             'user_id' => auth()->id(),
             'status' => 'pending',
+            'notes'=>$request->notes,
             'registered_at' => now()
         ]);
         return back()->with('success', 'Başvurunuz başarıyla alındı. Onay bekleniyor.');
@@ -90,6 +91,15 @@ class EventRegistrationController extends Controller
     // Organizer'ın etkinliklerine yapılan başvuruları listele
     public function organizerIndex()
     {
+        $registrations = EventRegistration::with(['event', 'user'])
+            ->whereHas('event', function($query) {
+                $query->where('organizer_id', auth()->id());
+            })
+            ->orderBy('registered_at', 'desc')
+            ->get(['event_registrations.*']);
+
+        // Alternatif olarak mevcut JOIN yapısını koruyarak:
+        /*
         $registrations = EventRegistration::join('events', 'event_registrations.event_id', '=', 'events.id')
             ->join('users', 'event_registrations.user_id', '=', 'users.id')
             ->where('events.organizer_id', auth()->id())
@@ -101,9 +111,12 @@ class EventRegistrationController extends Controller
             )
             ->orderBy('event_registrations.registered_at', 'desc')
             ->get();
+        */
+
         // Kayıtların gelip gelmediğini kontrol edin
         if ($registrations->isEmpty()) {
-            \Log::warning('Başvuru yok!');
+            \Log::info('Organizatör için kayıt bulunamadı. Organizatör ID: '.auth()->id());
+            session()->flash('info', 'Henüz hiç başvuru bulunmamaktadır.');
         }
 
         return view('panel.eventRegistration.index', compact('registrations'));
@@ -136,7 +149,7 @@ class EventRegistrationController extends Controller
     // Kullanıcının kendi başvurularını listele
     public function myRegistrations()
     {
-        $myRegistrations = EventRegistration::with('event')
+        $myRegistrations = EventRegistration::with('event','category')
             ->where('user_id', auth()->id())
             ->orderBy('registered_at', 'desc')
             ->get();
