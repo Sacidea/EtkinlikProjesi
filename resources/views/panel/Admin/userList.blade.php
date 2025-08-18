@@ -62,13 +62,17 @@
                                             <!-- Rol Güncelleme Formu -->
                                             <form method="POST" action="{{route('admin.update-user-role', $user->id)}}" style="display: inline;">
                                                 @csrf
-
-                                                @if($user->role=='participant')
-                                                <button class="btn btn-success btn-sm" type="submit" >
-                                                    <i class="mdi mdi-account-edit"></i>Yetki ver
-                                                </button>
+                                                @if($user->role == 'participant')
+                                                    <button class="btn btn-success btn-sm" type="submit">
+                                                        <i class="mdi mdi-account-edit"></i> Yetki ver
+                                                    </button>
+                                                @else
+                                                    <button class="btn btn-info btn-sm" type="submit">
+                                                        <i class="mdi mdi-account-edit"></i> Geri Al
+                                                    </button>
                                                 @endif
                                             </form>
+
 
                                             <!-- Kullanıcı Silme Formu -->
                                             <form method="POST" action="{{route('admin.delete-user', $user->id)}}" style="display: inline;"

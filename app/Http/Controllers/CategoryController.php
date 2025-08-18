@@ -25,7 +25,7 @@ class CategoryController extends Controller
         // Veritabanına kayıt
         try {
             Category::create($validated);
-            return redirect()->route('events.index')->with('success', 'Kategori eklendi');
+            return redirect()->route('event.index')->with('success', 'Kategori eklendi');
         } catch (\Exception $e) {
             \Log::error('Kategori ekleme hatası: '.$e->getMessage());
             return back()->withInput()->with('error', 'Kategori eklenemedi: '.$e->getMessage());

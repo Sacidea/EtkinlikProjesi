@@ -154,7 +154,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-bordered table-hover" id="eventsTable">
+                <table class="table table-bordered table-hover text-white" id="eventsTable">
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
@@ -220,11 +220,7 @@
 
 
 
-                                        <a href="{{ route('events.create') }}"
-                                           class="btn btn-sm btn-outline-warning"
-                                           title="Düzenle">
-                                            <i class="mdi mdi-pencil"></i>
-                                        </a>
+
                                         <form method="POST" action="{{ route('admin.deleteEvent', $event->id) }}"
                                               style="display: inline;"
                                               onsubmit="return confirm('Bu etkinliği silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!')">

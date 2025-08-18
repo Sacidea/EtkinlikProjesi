@@ -123,15 +123,19 @@ class AdminController extends Controller
     {
         try {
             $user = User::findOrFail($userA);
-            
+
             // Kullanıcının mevcut rolünü kontrol et
             if ($user->role === 'participant') {
                 $user->update(['role' => 'organizer']);
                 return back()->with('success', 'Kullanıcı rolü başarıyla organizer olarak güncellendi.');
+            } elseif ($user->role === 'organizer') {
+                $user->update(['role' => 'participant']);
+                return back()->with('success', 'Bu kullanıcının yetkisi başarıyla geri alındı.');
             } else {
-                return back()->with('error', 'Bu kullanıcının rolü zaten organizer veya admin.');
+                // Geçersiz rol durumunda hata döndür
+                return back()->with('error', 'Geçersiz kullanıcı rolü!');
             }
-        } catch (\Exception $e) {
+        } catch(\Exception $e) {
             \Log::error('Kullanıcı rolü güncelleme hatası: ' . $e->getMessage());
             return back()->with('error', 'Kullanıcı rolü güncellenirken bir hata oluştu.');
         }

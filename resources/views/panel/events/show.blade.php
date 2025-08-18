@@ -26,7 +26,7 @@
                     <img src="{{ asset('panel/assets/images/'.$event->image) }}"
                          alt="Event Image"
                          class="img-fluid w-100"
-                         style="object-fit: cover; height: 700px;">
+                         style="object-fit: cover; height: 500px;">
 
                 @else
                     <p>Resim bulunamadı</p>
@@ -63,9 +63,9 @@
                                 <input
                                     name="notes"
                                     id="notes"
-                                    class="form-control @error('notes') is-invalid @enderror"
+                                    class="form-control @error('notes') is-invalid @enderror "
                                     rows="4"
-                                    placeholder="Kategori açıklamasını giriniz"
+                                    placeholder="_"
                                 >{{ old('notes') }}
                                 @error('notes')
                                 <div class="invalid-feedback">{{ $message }}</div>
